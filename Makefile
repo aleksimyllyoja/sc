@@ -14,11 +14,9 @@ endif
 
 all: main clean
 
-main: main.o trackball.o glad.o
+main: main.o glad.o
 
-main.o: main.c trackball.h glad.h
-
-trackball.o: trackball.c trackball.h
+main.o: main.c glad.h
 
 glad.o: glad.c glad.h khrplatform.h
 
