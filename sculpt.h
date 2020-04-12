@@ -46,6 +46,5 @@ float triangle_area(Vec3 v1, Vec3 v2, Vec3 v3);
 MaybeVec3 triangle_line_intersection(Vec3 x1, Vec3 x2, Vec3 x3, Vec3 a, Vec3 b);
 MaybeVec3 find_intersection(Shape* s, Line line);
 
-Shape* create_triangle();
 Shape* create_cube();
 void free_shape(Shape *s);

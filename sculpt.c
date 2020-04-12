@@ -96,6 +96,12 @@ Vec3 midpoint(Vec3 v1, Vec3 v2) {
   return divide(add(v1, v2), 2);
 }
 
+float triangle_area(Vec3 v1, Vec3 v2, Vec3 v3) {
+  Vec3 v12 = subtract(v2, v1);
+  Vec3 v13 = subtract(v3, v1);
+  return 0.5*length(cross(v12, v13));
+}
+
 MaybeVec3 triangle_line_intersection(Vec3 x1, Vec3 x2, Vec3 x3, Vec3 a, Vec3 b) {
   float A1 = _area(x2, x3, a, b);
   float A2 = _area(x3, x1, a, b);
@@ -147,7 +153,7 @@ MaybeVec3 find_intersection(Shape* s, Line line) {
   return ret;
 }
 
-Shape* create_cube() {
+Shape* create_cube2() {
   float vertices[24] = {
     1.000000, -1.000000, -1.000000,
     1.000000, -1.000000, 1.000000,
@@ -188,28 +194,26 @@ Shape* create_cube() {
   return cube;
 }
 
-Shape* create_triangle() {
-  float vertices[9] = {
-    -1.0, 0.0, 0.0,
-    1.0, 0.0, 0.0,
-    0.0, 1.0, 0.0
+Shape* create_cube() {
+  float vertices[24578*3] = {
+    #include "data/vertices2"
   };
 
-  int indices[3] = {
-    0, 1, 2
+  int indices[49152*3] = {
+    #include "data/indices2"
   };
 
-  Shape* t = malloc(sizeof(Shape));
-  t->vertices = malloc(sizeof(float)*9);
-  t->indices = malloc(sizeof(int)*3);
+  Shape* cube = malloc(sizeof(Shape));
+  cube->vertices = malloc(sizeof(float)*24578*3);
+  cube->indices = malloc(sizeof(int)*49152*3);
 
-  memcpy(t->vertices, &vertices, sizeof(float)*9);
-  memcpy(t->indices, &indices, sizeof(int)*3);
+  memcpy(cube->vertices, &vertices, sizeof(float)*24578*3);
+  memcpy(cube->indices, &indices, sizeof(int)*49152*3);
 
-  t->vertex_count = 9;
-  t->index_count = 3;
+  cube->vertex_count = 24578*3;
+  cube->index_count = 49152*3;
 
-  return t;
+  return cube;
 }
 
 void free_shape(Shape* s) {
